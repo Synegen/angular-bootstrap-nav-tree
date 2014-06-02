@@ -4,10 +4,10 @@
   module = angular.module('angularBootstrapNavTree', []);
 
   module.directive('abnTree', [
-    '$timeout', function($timeout) {
+    '$timeout', '$sce', function($timeout, $sce) {
       return {
         restrict: 'E',
-        template: "<ul class=\"nav nav-list nav-pills nav-stacked abn-tree\">\n  <li ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-animate=\"'abn-tree-animate'\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abn-tree-row\">\n    <a ng-click=\"user_clicks_branch(row.branch)\">\n      <i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"> </i>\n      <span class=\"indented tree-label\">{{ row.label }} </span>\n    </a>\n  </li>\n</ul>",
+        template: "<ul class=\"nav nav-list nav-pills nav-stacked abn-tree\">\n  <li ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-animate=\"'abn-tree-animate'\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abn-tree-row\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"> </i><span ng-bind-html=\"row.label\" class=\"indented tree-label\"></span></a></li>\n</ul>",
         replace: true,
         scope: {
           treeData: '=',
@@ -160,7 +160,7 @@
                   f = function(e) {
                     if (typeof e === 'string') {
                       return {
-                        label: e,
+                        label: $sce.trustAsHtml(e),
                         children: []
                       };
                     } else {
@@ -199,7 +199,7 @@
               scope.tree_rows.push({
                 level: level,
                 branch: branch,
-                label: branch.label,
+                label: typeof branch.label === 'string' ? $sce.trustAsHtml(branch.label) : branch.label,
                 tree_icon: tree_icon,
                 visible: visible
               });

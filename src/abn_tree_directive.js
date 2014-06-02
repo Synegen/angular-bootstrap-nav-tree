@@ -4,7 +4,7 @@ var module;
 module = angular.module('angularBootstrapNavTree', []);
 
 module.directive('abnTree', [
-  '$timeout', function($timeout) {
+  '$timeout', '$sce', function($timeout, $sce) {
     return {
       restrict: 'E',
       template: "{html}",
@@ -160,7 +160,7 @@ module.directive('abnTree', [
                 f = function(e) {
                   if (typeof e === 'string') {
                     return {
-                      label: e,
+                      label: $sce.trustAsHtml(e),
                       children: []
                     };
                   } else {
@@ -199,7 +199,7 @@ module.directive('abnTree', [
             scope.tree_rows.push({
               level: level,
               branch: branch,
-              label: branch.label,
+              label: $sce.trustAsHtml(branch.label),
               tree_icon: tree_icon,
               visible: visible
             });

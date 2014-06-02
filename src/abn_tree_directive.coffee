@@ -1,7 +1,7 @@
 
 module = angular.module 'angularBootstrapNavTree',[]
 
-module.directive 'abnTree',['$timeout',($timeout)-> 
+module.directive 'abnTree',['$timeout', '$sce', ($timeout, $sce)->
   restrict:'E'
   
   #templateUrl: '../dist/abn_tree_template.html' # <--- another way to do this
@@ -171,7 +171,7 @@ module.directive 'abnTree',['$timeout',($timeout)->
             # don't use Array.map ( old browsers don't have it )
             f = (e)->
               if typeof e == 'string'
-                label:e
+                label: $sce.trustAsHtml(e)
                 children:[]
               else
                 e
@@ -210,7 +210,7 @@ module.directive 'abnTree',['$timeout',($timeout)->
         scope.tree_rows.push
           level     : level
           branch    : branch
-          label     : branch.label
+          label     : if typeof branch.label == 'string' then $sce.trustAsHtml(branch.label) else branch.label
           tree_icon : tree_icon
           visible   : visible
 
