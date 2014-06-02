@@ -8,7 +8,7 @@ module.directive 'abnTree',['$timeout', '$sce', ($timeout, $sce)->
 
   template: """
 <ul class="nav nav-list nav-pills nav-stacked abn-tree">
-  <li ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')" class="abn-tree-row"><a ng-click="user_clicks_branch(row.branch)"><i ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"> </i><span ng-bind-html="row.label" class="indented tree-label"></span></a></li>
+  <li ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')" class="abn-tree-row"><a ng-click="user_clicks_branch(row.branch)"><i ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"> </i><span ng-bind-html="row.render(row)" class="indented tree-label"></span></a></li>
 </ul>""" # will be replaced by Grunt, during build, with the actual Template HTML
   replace:true
   scope:
@@ -152,7 +152,7 @@ module.directive 'abnTree',['$timeout', '$sce', ($timeout, $sce)->
       for_each_branch (b,level)->
         if not b.uid
           b.uid = ""+Math.random()
-      console.log 'UIDs are set.'
+#      console.log 'UIDs are set.'
 
 
       # set all parents:
@@ -174,7 +174,8 @@ module.directive 'abnTree',['$timeout', '$sce', ($timeout, $sce)->
             # don't use Array.map ( old browsers don't have it )
             f = (e)->
               if typeof e == 'string'
-                label: $sce.trustAsHtml(e)
+                label     : e
+                render    : () -> return $sce.trustAsHtml(e)
                 children:[]
               else
                 e
@@ -214,6 +215,7 @@ module.directive 'abnTree',['$timeout', '$sce', ($timeout, $sce)->
           level     : level
           branch    : branch
           label     : if typeof branch.label == 'string' then $sce.trustAsHtml(branch.label) else branch.label
+          render    : if branch.render then branch.render else ()-> return $sce.trustAsHtml(branch.label)
           tree_icon : tree_icon
           visible   : visible
 
@@ -259,7 +261,7 @@ module.directive 'abnTree',['$timeout', '$sce', ($timeout, $sce)->
     # expand to the proper level
     #
     n = scope.treeData.length
-    console.log 'num root branches = '+n
+#    console.log 'num root branches = '+n
     for_each_branch (b,level)->
       b.level = level
       b.expanded = b.level < expand_level

@@ -6,7 +6,7 @@ if angular.version.full.indexOf("1.2")>=0
 
 
 app = angular.module 'AbnTest', deps
-app.controller 'AbnTestController',($scope,$timeout)->
+app.controller 'AbnTestController',($scope,$timeout,$sce)->
   
   #
   # a default "on-select" handler can be specified
@@ -69,6 +69,7 @@ app.controller 'AbnTestController',($scope,$timeout)->
         description:"hungry, hungry"
     ,
       label:'Chicken'
+      render: (row) -> $sce.trustAsHtml("Marty's Chicken: " + row.label)
       children:['White Leghorn','Rhode Island Red','Jersey Giant']        
     ]
   ,

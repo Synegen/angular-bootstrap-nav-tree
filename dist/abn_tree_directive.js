@@ -7,7 +7,7 @@
     '$timeout', '$sce', function($timeout, $sce) {
       return {
         restrict: 'E',
-        template: "<ul class=\"nav nav-list nav-pills nav-stacked abn-tree\">\n  <li ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-animate=\"'abn-tree-animate'\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abn-tree-row\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"> </i><span ng-bind-html=\"row.label\" class=\"indented tree-label\"></span></a></li>\n</ul>",
+        template: "<ul class=\"nav nav-list nav-pills nav-stacked abn-tree\">\n  <li ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-animate=\"'abn-tree-animate'\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abn-tree-row\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"> </i><span ng-bind-html=\"row.render(row)\" class=\"indented tree-label\"></span></a></li>\n</ul>",
         replace: true,
         scope: {
           treeData: '=',
@@ -139,7 +139,6 @@
                 return b.uid = "" + Math.random();
               }
             });
-            console.log('UIDs are set.');
             for_each_branch(function(b) {
               var child, _i, _len, _ref, _results;
               if (angular.isArray(b.children)) {
@@ -160,7 +159,10 @@
                   f = function(e) {
                     if (typeof e === 'string') {
                       return {
-                        label: $sce.trustAsHtml(e),
+                        label: e,
+                        render: function() {
+                          return $sce.trustAsHtml(e);
+                        },
                         children: []
                       };
                     } else {
@@ -200,6 +202,9 @@
                 level: level,
                 branch: branch,
                 label: typeof branch.label === 'string' ? $sce.trustAsHtml(branch.label) : branch.label,
+                render: branch.render ? branch.render : function() {
+                  return $sce.trustAsHtml(branch.label);
+                },
                 tree_icon: tree_icon,
                 visible: visible
               });
@@ -233,7 +238,6 @@
             });
           }
           n = scope.treeData.length;
-          console.log('num root branches = ' + n);
           for_each_branch(function(b, level) {
             b.level = level;
             return b.expanded = b.level < expand_level;

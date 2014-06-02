@@ -9,7 +9,7 @@
 
   app = angular.module('AbnTest', deps);
 
-  app.controller('AbnTestController', function($scope, $timeout) {
+  app.controller('AbnTestController', function($scope, $timeout, $sce) {
     var apple_selected, tree, treedata_avm, treedata_geography;
     $scope.my_tree_handler = function(branch) {
       var _ref;
@@ -42,6 +42,9 @@
             }
           }, {
             label: 'Chicken',
+            render: function(row) {
+              return $sce.trustAsHtml("Marty's Chicken: " + row.label);
+            },
             children: ['White Leghorn', 'Rhode Island Red', 'Jersey Giant']
           }
         ]

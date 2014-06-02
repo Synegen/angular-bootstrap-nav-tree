@@ -15,5 +15,5 @@ ul.nav.nav-list.nav-pills.nav-stacked.abn-tree
         ) 
 
       span.indented.tree-label(
-        ng-bind-html="row.label"
+        ng-bind-html="row.render(row)"
       )
