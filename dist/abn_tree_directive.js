@@ -292,6 +292,15 @@
                   }
                 }
               };
+              tree.remove_branch = function(branch) {
+                var parent;
+                parent = tree.get_parent_branch(branch);
+                if (parent != null) {
+                  return parent.children.splice(parent.children.indexOf(branch), 1);
+                } else {
+                  return scope.treeData.splice(scope.treeData.indexOf(branch), 1);
+                }
+              };
               tree.add_branch = function(parent, new_branch) {
                 if (parent != null) {
                   parent.children.push(new_branch);

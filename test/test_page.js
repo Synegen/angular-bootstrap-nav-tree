@@ -153,6 +153,11 @@
         return tree.expand_all();
       }, 1000);
     };
+    $scope.try_deleteing_a_branch = function() {
+      var b;
+      b = tree.get_selected_branch();
+      return tree.remove_branch(b);
+    };
     return $scope.try_adding_a_branch = function() {
       var b;
       b = tree.get_selected_branch();

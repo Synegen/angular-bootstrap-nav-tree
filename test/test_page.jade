@@ -34,7 +34,7 @@ html(ng-app='AbnTest')
 		///
 		// abn-tree ( the thing we are testing )
 		//
-		script(src="../dist/abn_tree_directive.js")		
+		script(src="../dist/abn_tree_directive.js")
 		link(rel='stylesheet',href='../dist/abn_tree.css')
 
 
@@ -42,7 +42,7 @@ html(ng-app='AbnTest')
 		script(src="test_page.js")
 
 
-		
+
 	body(
 		ng-controller='AbnTestController'
 		style="margin:20px"
@@ -58,7 +58,7 @@ html(ng-app='AbnTest')
 					a(href='https://github.com/nickperkinslondon/angular-bootstrap-nav-tree') The code is on Github
 
 
-					// All 4 of these pages are generated ( by Grunt ) 
+					// All 4 of these pages are generated ( by Grunt )
 					// from this one jade file
 					hr
 
@@ -86,12 +86,12 @@ html(ng-app='AbnTest')
 						tr
 							td(style='vertical-align:top')
 
-								br	
+								br
 								button.btn.btn-default.btn-sm(
 									ng-click="try_changing_the_tree_data()"
 									) Change The Tree Definition
 
-								br	
+								br
 								button.btn.btn-default.btn-sm(
 									ng-click="try_async_load()"
 									) Load Tree Data Asynchronously
@@ -107,7 +107,7 @@ html(ng-app='AbnTest')
 								button.btn.btn-default.btn-sm(
 									ng-click='my_tree.select_next_sibling()'
 									) Next Sibling
-								
+
 								button.btn.btn-default.btn-sm(
 									ng-click='my_tree.select_prev_sibling()'
 									) Prev Sibling
@@ -117,7 +117,7 @@ html(ng-app='AbnTest')
 									ng-click='my_tree.select_next_branch()'
 									) Next Branch
 
-								
+
 								button.btn.btn-default.btn-sm(
 									ng-click='my_tree.select_prev_branch()'
 									) Prev Branch
@@ -149,6 +149,9 @@ html(ng-app='AbnTest')
 									ng-click='try_adding_a_branch()'
 									) Add Branch
 
+								button.btn.btn-default.btn-sm(
+									ng-click='try_deleteing_a_branch()'
+									) Delete Branch
 
 
 							td(style='vertical-align:top')
@@ -157,7 +160,7 @@ html(ng-app='AbnTest')
 									)
 
 									span(ng-if='doing_async') ...loading...
-									
+
 									abn-tree(
 										tree-data         = "my_data"
 										tree-control      = "my_tree"

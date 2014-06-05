@@ -180,6 +180,10 @@ app.controller 'AbnTestController',($scope,$timeout,$sce)->
       tree.expand_all()
     ,1000
 
+  $scope.try_deleteing_a_branch = ->
+    b = tree.get_selected_branch()
+    tree.remove_branch(b)
+
   $scope.try_adding_a_branch = ->
     b = tree.get_selected_branch()
     tree.add_branch b,

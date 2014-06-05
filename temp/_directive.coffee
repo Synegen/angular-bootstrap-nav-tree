@@ -318,6 +318,12 @@ module.directive 'abnTree',['$timeout', '$sce', ($timeout, $sce)->
               tree.select_branch(p)
               p
 
+        tree.remove_branch = (branch)->
+          parent = tree.get_parent_branch(branch)
+          if parent?
+            parent.children.splice parent.children.indexOf(branch), 1
+          else
+            scope.treeData.splice scope.treeData.indexOf(branch), 1
 
         tree.add_branch = (parent,new_branch)->
           if parent?
