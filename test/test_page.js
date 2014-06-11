@@ -140,6 +140,11 @@
       }
     };
     $scope.my_tree = tree = {};
+    $scope.try_every_branch = function() {
+      return tree.for_each_branch(function(b) {
+        return console.log(b);
+      });
+    };
     $scope.try_async_load = function() {
       $scope.my_data = [];
       $scope.doing_async = true;

@@ -166,7 +166,9 @@ app.controller 'AbnTestController',($scope,$timeout,$sce)->
   $scope.my_tree = tree = {}
   # just create an empty object, and pass it to the abn-tree as "tree-control"
   # ...it will be populated with Tree API functions
-  
+  $scope.try_every_branch = ()->
+    tree.for_each_branch (b)->
+      console.log b
 
   $scope.try_async_load = ()->
     $scope.my_data = []
@@ -191,5 +193,6 @@ app.controller 'AbnTestController',($scope,$timeout,$sce)->
       data:
         something:42
         else:43
+
 
 

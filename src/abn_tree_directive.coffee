@@ -280,6 +280,9 @@ module.directive 'abnTree',['$timeout', '$sce', '$compile', ($timeout, $sce, $co
       if angular.isObject scope.treeControl
         tree = scope.treeControl
 
+        tree.for_each_branch = (b)->
+          for_each_branch (b)
+
         tree.expand_all = ->
           for_each_branch (b,level)->
             b.expanded = true

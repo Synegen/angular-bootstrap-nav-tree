@@ -41,12 +41,10 @@ html(ng-app='AbnTest')
 		// js for this test page:
 		script(src="test_page.js")
 
-
-
 	body(
 		ng-controller='AbnTestController'
 		style="margin:20px"
-		)
+	)
 
 		h2 angular-bootstrap-nav-tree
 		table
@@ -55,7 +53,7 @@ html(ng-app='AbnTest')
 					//- Left Side
 
 					h6 by Nick Perkins
-					a(href='https://github.com/nickperkinslondon/angular-bootstrap-nav-tree') The code is on Github
+						a(href='https://github.com/nickperkinslondon/angular-bootstrap-nav-tree') The code is on Github
 
 
 					// All 4 of these pages are generated ( by Grunt )
@@ -77,8 +75,8 @@ html(ng-app='AbnTest')
 
 
 					hr
-					h4 Bootstrap #{bs}
-					h4 Angular #{ng}
+						h4 Bootstrap #{bs}
+						h4 Angular #{ng}
 					hr
 
 
@@ -88,88 +86,92 @@ html(ng-app='AbnTest')
 
 								br
 								button.btn.btn-default.btn-sm(
-									ng-click="try_changing_the_tree_data()"
-									) Change The Tree Definition
+								ng-click="try_changing_the_tree_data()"
+								) Change The Tree Definition
 
 								br
 								button.btn.btn-default.btn-sm(
-									ng-click="try_async_load()"
-									) Load Tree Data Asynchronously
+								ng-click="try_async_load()"
+								) Load Tree Data Asynchronously
 
 								hr
 								h5 Test the Tree Control API:
 
 								br
 								button.btn.btn-default.btn-sm(
-									ng-click='my_tree.select_first_branch()'
-									) First Branch
+								ng-click='my_tree.select_first_branch()'
+								) First Branch
 								br
 								button.btn.btn-default.btn-sm(
-									ng-click='my_tree.select_next_sibling()'
-									) Next Sibling
+								ng-click='my_tree.select_next_sibling()'
+								) Next Sibling
 
 								button.btn.btn-default.btn-sm(
-									ng-click='my_tree.select_prev_sibling()'
-									) Prev Sibling
-
-								br
-								button.btn.btn-default.btn-sm(
-									ng-click='my_tree.select_next_branch()'
-									) Next Branch
-
-
-								button.btn.btn-default.btn-sm(
-									ng-click='my_tree.select_prev_branch()'
-									) Prev Branch
+								ng-click='my_tree.select_prev_sibling()'
+								) Prev Sibling
 
 								br
 								button.btn.btn-default.btn-sm(
-									ng-click='my_tree.select_parent_branch()'
-									) Parent
+								ng-click='my_tree.select_next_branch()'
+								) Next Branch
+
+
+								button.btn.btn-default.btn-sm(
+								ng-click='my_tree.select_prev_branch()'
+								) Prev Branch
+
+								br
+								button.btn.btn-default.btn-sm(
+								ng-click='my_tree.select_parent_branch()'
+								) Parent
 
 								hr
 								button.btn.btn-default.btn-sm(
-									ng-click='my_tree.expand_branch()'
-									) Expand
+								ng-click='my_tree.expand_branch()'
+								) Expand
 
 								button.btn.btn-default.btn-sm(
-									ng-click='my_tree.collapse_branch()'
-									) Collapse
+								ng-click='my_tree.collapse_branch()'
+								) Collapse
 
 								button.btn.btn-default.btn-sm(
-									ng-click='my_tree.expand_all()'
-									) Expand All
+								ng-click='my_tree.expand_all()'
+								) Expand All
 
 								button.btn.btn-default.btn-sm(
-									ng-click='my_tree.collapse_all()'
-									) Collapse All
+								ng-click='my_tree.collapse_all()'
+								) Collapse All
 
 								hr
 								button.btn.btn-default.btn-sm(
-									ng-click='try_adding_a_branch()'
-									) Add Branch
+								ng-click='try_adding_a_branch()'
+								) Add Branch
 
 								button.btn.btn-default.btn-sm(
-									ng-click='try_deleteing_a_branch()'
-									) Delete Branch
+								ng-click='try_deleteing_a_branch()'
+								) Delete Branch
+
+								button.btn.btn-default.btn-sm(
+								ng-click='try_every_branch()'
+								) Try Every Branch
 
 
 							td(style='vertical-align:top')
 								div(
-									style='width:250px;margin-left:100px;background:whitesmoke;border:1px solid lightgray;border-radius:5px;'
-									)
+								style='width:250px;margin-left:100px;background:whitesmoke;border:1px solid lightgray;border-radius:5px;'
+								)
 
 									span(ng-if='doing_async') ...loading...
 
 									abn-tree(
-										tree-data         = "my_data"
-										tree-control      = "my_tree"
-										on-select         = "my_tree_handler(branch)"
-										expand-level      = "2"
-										initial-selection = "Granny Smith"
-										)
+									tree-data         = "my_data"
+									tree-control      = "my_tree"
+									on-select         = "my_tree_handler(branch)"
+									expand-level      = "2"
+									initial-selection = "Granny Smith"
+									)
 
 							td(style="padding:20px;vertical-align:top;")
 								.alert.alert-warning(
-									style="width:300px"
-									) {{ output }}
+								style="width:300px"
+								) {{ output }}
