@@ -1,21 +1,25 @@
 
 module = angular.module 'angularBootstrapNavTree',[]
 
-module.directive 'abnTree',['$timeout', '$sce', ($timeout, $sce)->
+module.directive 'abnTree',['$timeout', '$sce', '$compile', ($timeout, $sce, $compile)->
   restrict:'E'
   
   #templateUrl: '../dist/abn_tree_template.html' # <--- another way to do this
 
-  template: """{html}""" # will be replaced by Grunt, during build, with the actual Template HTML
   replace:true
   scope:
     treeData:'='
     onSelect:'&'
     initialSelection:'@'
     treeControl:'='
+    customHtml: '='
 
   link:(scope,element,attrs)->
-
+    if( scope.customHtml )
+      element.append(scope.customHtml);
+    else
+      element.append("""{html}"""); # will be replaced by Grunt, during build, with the actual Template HTML
+    $compile(element.contents())(scope);
 
     error = (s) ->
       console.log 'ERROR:'+s

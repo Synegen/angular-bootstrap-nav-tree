@@ -1,24 +1,28 @@
 
 module = angular.module 'angularBootstrapNavTree',[]
 
-module.directive 'abnTree',['$timeout', '$sce', ($timeout, $sce)->
+module.directive 'abnTree',['$timeout', '$sce', '$compile', ($timeout, $sce, $compile)->
   restrict:'E'
   
   #templateUrl: '../dist/abn_tree_template.html' # <--- another way to do this
 
-  template: """
-<ul class="nav nav-list nav-pills nav-stacked abn-tree">
-  <li ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')" class="abn-tree-row"><a ng-click="user_clicks_branch(row.branch)"><i ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"> </i><span ng-bind-html="row.render(row)" class="indented tree-label"></span></a></li>
-</ul>""" # will be replaced by Grunt, during build, with the actual Template HTML
   replace:true
   scope:
     treeData:'='
     onSelect:'&'
     initialSelection:'@'
     treeControl:'='
+    customHtml: '='
 
   link:(scope,element,attrs)->
-
+    if( scope.customHtml )
+      element.append(scope.customHtml);
+    else
+      element.append("""
+<ul class="nav nav-list nav-pills nav-stacked abn-tree">
+  <li ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')" class="abn-tree-row"><a ng-click="user_clicks_branch(row.branch)"><i ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"> </i><span ng-bind-html="row.render(row)" class="indented tree-label"></span></a></li>
+</ul>"""); # will be replaced by Grunt, during build, with the actual Template HTML
+    $compile(element.contents())(scope);
 
     error = (s) ->
       console.log 'ERROR:'+s

@@ -4,19 +4,25 @@
   module = angular.module('angularBootstrapNavTree', []);
 
   module.directive('abnTree', [
-    '$timeout', '$sce', function($timeout, $sce) {
+    '$timeout', '$sce', '$compile', function($timeout, $sce, $compile) {
       return {
         restrict: 'E',
-        template: "<ul class=\"nav nav-list nav-pills nav-stacked abn-tree\">\n  <li ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-animate=\"'abn-tree-animate'\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abn-tree-row\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"> </i><span ng-bind-html=\"row.render(row)\" class=\"indented tree-label\"></span></a></li>\n</ul>",
         replace: true,
         scope: {
           treeData: '=',
           onSelect: '&',
           initialSelection: '@',
-          treeControl: '='
+          treeControl: '=',
+          customHtml: '='
         },
         link: function(scope, element, attrs) {
           var error, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
+          if (scope.customHtml) {
+            element.append(scope.customHtml);
+          } else {
+            element.append("<ul class=\"nav nav-list nav-pills nav-stacked abn-tree\">\n  <li ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-animate=\"'abn-tree-animate'\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abn-tree-row\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"> </i><span ng-bind-html=\"row.render(row)\" class=\"indented tree-label\"></span></a></li>\n</ul>");
+          }
+          $compile(element.contents())(scope);
           error = function(s) {
             console.log('ERROR:' + s);
             debugger;
